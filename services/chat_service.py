@@ -209,12 +209,13 @@ def get_vendor_details(disability_type: str, location: str):
                 }
                 for loc in provider["locations"]:
                     if location.lower() in loc.get("address", "").lower():
-                        contacts = loc.get("contacts", {})
+                        # Get first contact from the contacts list if available
+                        contact_info = loc.get("contacts", [])[0] if loc.get("contacts") else {}
                         vendor["branches"].append({
                             "branch name": loc.get("id", ""),
                             "address": loc.get("address", ""),    
-                            "phone": contacts.get("phone", ""),
-                            "email": contacts.get("email", ""),
+                            "phone": contact_info.get("phone", ""),
+                            "email": contact_info.get("email", ""),
                         })
                         result.append(vendor)
 
